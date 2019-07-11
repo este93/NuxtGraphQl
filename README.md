@@ -1,0 +1,1 @@
+# NuxtGraphQl
