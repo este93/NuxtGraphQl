@@ -1,0 +1,10 @@
+query {
+	allNews{
+		title
+		text
+		slug
+		thumbnail{
+			url
+		}
+	}
+}

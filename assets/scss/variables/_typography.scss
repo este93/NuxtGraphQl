@@ -1,0 +1,46 @@
+//----- Variables / Typography
+// @font-face {
+//   font-family: 'ArialMT';
+//   src: url('/fonts/ARIALMT.ttf') format('woff2');
+//   font-weight: normal;
+//   font-display: block;
+//   font-style: normal;
+// }
+
+//----- Font size
+$font-size-base         : 11;
+
+$fontDefault: Arial, sans-serif;
+
+body {
+  font-family: 'ArialMT', $fontDefault;
+  overflow-x: hidden;
+	padding: 32px 20px;		
+  @include breakpoint(desktop) {
+    padding: 50px 20px;
+  }
+}
+
+a{
+  color: $color-black;
+  text-decoration: none;
+}
+
+#__layout{
+  @include breakpoint(desktop) {
+    max-width: 1217px;
+    margin: auto;
+    padding: 0 37px;
+  }
+}
+
+.title{
+  font-style: italic;
+  color: $color-red;
+  @include font-size(22, 30);
+  letter-spacing: 1px;
+  margin-bottom: 68px;
+  @include breakpoint(desktop) {
+    letter-spacing: 1.7px;
+  }
+}

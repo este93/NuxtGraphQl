@@ -1,0 +1,11 @@
+query {
+	allPosts{
+		title
+		description
+		slug
+		thumbnail{
+			url
+		}
+		upcoming
+	}
+}

@@ -1,0 +1,13 @@
+query {
+    post (filter: {slug: {eq: "adems-island"}}) {
+	    title
+	    description
+	    thumbnail{
+            url
+        }
+        video{
+        	providerUid
+        	url
+        }
+    }
+}

@@ -1,0 +1,9 @@
+@mixin font-family($font) {
+	@if($font == 'regular'){
+		font-family: 'Poppins-Regular';
+	} @elseif($font == 'bold'){
+		font-family: 'Poppins-SemiBold';
+	} @elseif($font == 'boldItalic'){
+		font-family: 'Poppins-BlackItalic';
+	}
+}
