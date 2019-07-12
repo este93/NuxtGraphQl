@@ -2,63 +2,39 @@
   <div class="list-single">
     <h1 class="title">Films</h1>
     <div class="list-single__top">
-      <img :src="post.thumbnail.url" alt="" v-if="post.thumbnail">   
+      <picture v-if="post.thumbnail">
+          <source :srcset="post.thumbnail.url + '?fit=cropw=1140&h=652'" alt="" media="(min-width: 1025px)">
+          <img :srcset="post.thumbnail.url + '?fit=cropw=335&h=207'" alt="">
+      </picture>
       <h2 class="list-single__title">{{ post.title }}</h2>
     </div>
     <iframe v-if="post.video" width="560" height="315" :src="`https://www.youtube.com/embed/${post.video.providerUid}`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="list-single__content" v-html="post.description"></div>
+    <div class="list-single__content" v-html="post.content"></div>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
-import post from '~/apollo/fetchSinglePost'
+import { GET_FILM } from '~/apollo/queries'
 
 export default {
   data(){
     return{
       post: {},
+      img: ''
     }
   },
-  // apollo: {
-  //   post: {
-  //     query: gql`query Post($slug: String!){
-  //       post(filter: { slug: {
-  //         eq: $slug
-  //       } }) {
-  //         title
-  //         description
-  //         thumbnail{
-  //           url
-  //         }
-  //         video{
-  //           url,
-  //           providerUid
-  //         }
-  //       }
-  //     }`,
-  //     error() { // or result(...)
-  //       this.$root.error({'statusCode': 404, 'message': 'OK'})
-  //     },
-  //     prefetch({route}) {
-  //       return {
-  //         slug: route.params.id
-  //       }
-  //     },
-  //     variables() {
-  //       return {
-  //         slug: this.$route.params.id,
-  //       }
-  //     }
-  //   }
-  // },
   apollo: {
     post: {
       prefetch: true,
-      query: post,
-      // result({data}){
-      //   this.posta = data.post;
-      // }
+      query: GET_FILM,
+      error() { 
+        this.$root.error({'statusCode': 404, 'message': 'OK'})
+      },
+      prefetch({route}) {
+        return {
+          slug: route.params.id
+        }
+      },
       variables() {
         return {
           slug: this.$route.params.id,
@@ -66,9 +42,6 @@ export default {
       }
     }
   },
-  components: {
-
-  }
 }
 </script>
 

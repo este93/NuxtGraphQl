@@ -1,8 +1,11 @@
 <template>
   <div class="list-single">
-    <h1 class="title">Films</h1>
-    <div class="list-single__top">
-      <img :src="news.thumbnail.url" alt="" v-if="news.thumbnail">   
+    <h1 class="title">News</h1>
+    <div class="list-single__top">  
+      <picture v-if="news.thumbnail">
+          <source :srcset="news.thumbnail.url + '?fit=cropw=1140&h=652'" alt="" media="(min-width: 1025px)">
+          <img :srcset="news.thumbnail.url + '?fit=cropw=335&h=207'" alt="">
+      </picture>
       <h2 class="list-single__title">{{ news.title }}</h2>
     </div>
     <iframe v-if="news.video" width="560" height="315" :src="`https://www.youtube.com/embed/${news.video.providerUid}`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

@@ -1,5 +1,5 @@
-query {
-    post (filter: {slug: {eq: "adems-island"}}) {
+query Post($slug: String!){
+    post (filter: {slug: {eq: $slug}}) {
 	    title
 	    description
 	    thumbnail{

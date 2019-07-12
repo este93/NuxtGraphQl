@@ -2,7 +2,7 @@
     <nav class="navigation" :class="{'navigation-active':navOpened}">
     	<ul>
     		<li class="navigation__item">
-    			<nuxt-link to="" class="navigation__link">Home</nuxt-link>
+    			<nuxt-link to="/" class="navigation__link">Home</nuxt-link>
     		</li>
     		<li class="navigation__item">
     			<nuxt-link to="/films" class="navigation__link">Films</nuxt-link>
@@ -17,7 +17,7 @@
     			<nuxt-link to="/news" class="navigation__link">News</nuxt-link>
     		</li>
     		<li class="navigation__item">
-    			<nuxt-link to="" class="navigation__link">Contact</nuxt-link>
+    			<nuxt-link to="/contact" class="navigation__link">Contact</nuxt-link>
     		</li>
     	</ul>
     </nav>
