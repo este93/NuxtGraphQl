@@ -5,8 +5,8 @@
         <h3 class="article__title">{{ data.title }}</h3>
         <div class="article__img" v-if="data.thumbnail && category[1] !== 'newsHp'">
           <picture>
-              <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 1025px)">
-              <img :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[1]}`" alt="">
+              <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" :data-srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 1025px)">
+              <img :src="data.thumbnail.url + `?fit=crop&${imageSizesResolver[1]}`" :data-src="data.thumbnail.url + `?fit=crop&${imageSizesResolver[1]}`" alt="" class="lazyload blur-up">
           </picture>         
         </div>
         <div class="upcoming__item__description" v-html="data.description" v-if="category[1] == 'featured'"></div>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+  import 'lazysizes';
+
 	export default {
 		props: ["data", "category"],
     data() {
@@ -259,5 +261,16 @@
         }
       }
     }
+  }
+
+  .blur-up {
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+    transition: filter 400ms, -webkit-filter 400ms;
+  }
+
+  .blur-up.lazyloaded {
+    -webkit-filter: blur(0);
+    filter: blur(0);
   }
   </style>
