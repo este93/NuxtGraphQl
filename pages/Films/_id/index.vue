@@ -66,7 +66,7 @@ export default {
     }
 
     &__title{      
-     @include font-size(30, 100);
+     font-size: 30px;
      font-weight: bold;
      position: absolute;
      bottom: -1px;
@@ -75,16 +75,19 @@ export default {
      padding: 14px 8px 4px 2px;
      letter-spacing: -0.1px;
      width: 85%;
+     word-break: break-word;
      @include breakpoint(desktop) {
       bottom: -50px;
       width: 75.5%;
       padding: 28px 8px 4px 2px;
+      font-size: 9.1rem;
      }
     }
 
     &__content{
      color: $color-gray;
      line-height: 24px;
+     font-size: 16px;
      @include breakpoint(desktop) {
       max-width: 57%;
      }

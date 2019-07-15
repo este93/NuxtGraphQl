@@ -3,7 +3,7 @@
     <h1 class="title">News</h1>
     <div class="list-single__top">  
       <picture v-if="news.thumbnail">
-          <source :srcset="news.thumbnail.url + '?fit=crop&w=1140&h=652'" alt="" media="(min-width: 1025px)">
+          <source :srcset="news.thumbnail.url + '?fit=crop&w=1140&h=652'" alt="" media="(min-width: 768px)">
           <img :srcset="news.thumbnail.url + '?fit=crop&w=335&h=207'" alt="">
       </picture>
       <h2 class="list-single__title">{{ news.title }}</h2>
@@ -65,7 +65,7 @@ export default {
     }
 
     &__title{      
-     @include font-size(30, 100);
+     font-size: 30px;
      font-weight: bold;
      position: absolute;
      bottom: -1px;
@@ -74,16 +74,19 @@ export default {
      padding: 14px 8px 4px 2px;
      letter-spacing: -0.1px;
      width: 85%;
+     word-break: break-word;
      @include breakpoint(desktop) {
       bottom: -50px;
       width: 75.5%;
       padding: 28px 8px 4px 2px;
+      font-size: 9.1rem;
      }
     }
 
     &__content{
      color: $color-gray;
      line-height: 24px;
+     font-size: 16px;
      @include breakpoint(desktop) {
       max-width: 57%;
      }

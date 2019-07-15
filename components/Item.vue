@@ -5,7 +5,7 @@
         <h3 class="article__title">{{ data.title }}</h3>
         <div class="article__img" v-if="data.thumbnail && category[1] !== 'newsHp'">
           <picture>
-              <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" :data-srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 1025px)">
+              <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" :data-srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 768px)">
               <img :src="data.thumbnail.url + `?fit=crop&${imageSizesResolver[1]}`" :data-src="data.thumbnail.url + `?fit=crop&${imageSizesResolver[1]}`" alt="" class="lazyload blur-up">
           </picture>         
         </div>
@@ -150,6 +150,9 @@
       }
       .article__img{
         margin-bottom: 10px;
+        img{
+          width: 100%;
+        }
       }
       .upcoming__item__description{        
         display: block;
@@ -163,7 +166,7 @@
         }
       }
       .article__title{        
-        @include font-size(40, 100);
+        font-size: 40px;
         line-height: 45px;
         letter-spacing: 2.3px;
         margin-bottom: 3px;
@@ -172,6 +175,7 @@
           line-height: 115px;
           margin-bottom: 0;
           padding: 0;
+          font-size: 9.1rem;
         }
       }
     }
@@ -195,6 +199,11 @@
         display: block;
         position: relative;
       }
+      .article__img{
+        img{
+          width: 100%;
+        }
+      }
       .article__title{
        @include font-size(16, 15);
        font-weight: normal;
@@ -207,6 +216,7 @@
        padding: 17px 5px 14px 3px;
        width: 75%;
        margin-bottom: 0;
+       z-index: 1;
        @include breakpoint(desktop) {
           width: 86%;
           padding: 16px 5px 6px 0px;
