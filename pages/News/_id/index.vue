@@ -9,33 +9,24 @@
       <h2 class="list-single__title">{{ news.title }}</h2>
     </div>
     <iframe v-if="news.video" width="560" height="315" :src="`https://www.youtube.com/embed/${news.video.providerUid}`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="list-single__content" v-html="news.description"></div>
+    <div class="list-single__content" v-html="news.text"></div>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
+import { GET_NEWS_SINGLE } from '~/apollo/queries'
 
 export default {
   data(){
     return{
       news: {},
     }
-  },
+  },  
   apollo: {
     news: {
-      query: gql`query News($slug: String!){
-        news(filter: { slug: {
-          eq: $slug
-        } }) {
-          title
-          text
-          thumbnail{
-            url
-          }
-        }
-      }`,
-      error() { // or result(...)
+      prefetch: true,
+      query: GET_NEWS_SINGLE,
+      error() { 
         this.$root.error({'statusCode': 404, 'message': 'OK'})
       },
       prefetch({route}) {
@@ -50,18 +41,6 @@ export default {
       }
     }
   },
-  // apollo: {
-  //   post: {
-  //     prefetch: true,
-  //     query: post,
-  //     result({data}){
-  //       this.posta = data.post;
-  //     }
-  //   }
-  // },
-  components: {
-
-  }
 }
 </script>
 

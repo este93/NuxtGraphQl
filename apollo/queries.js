@@ -15,20 +15,6 @@ export const GET_FILMS = gql`
 	}
 `;
 
-export const GET_TICKETS = gql`
-	query{
-		allTickets{
-			name
-			content
-			slug
-			createdAt
-			image{
-				url
-			}
-		}
-	}
-`;
-
 export const GET_UPCOMING = gql`
 	query{
 		allPosts(first: 3, filter: {upcoming: {eq: true} } ){
@@ -83,6 +69,18 @@ export const GET_FILM = gql`
 	        video{
 	        	providerUid
 	        	url
+	        }
+	    }
+	}
+`;
+
+export const GET_NEWS_SINGLE = gql`
+	query News($slug: String!){
+	    news (filter: {slug: {eq: $slug}}) {
+		    title
+			text
+		    thumbnail{
+	            url
 	        }
 	    }
 	}
