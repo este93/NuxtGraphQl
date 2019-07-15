@@ -23,17 +23,6 @@ export default {
   @import "~assets/scss/main.scss";
 
   .upcoming__item{
-    position: relative;
-    margin-bottom: 31px;
-    @include breakpoint(desktop) {
-      margin-bottom: 43px;
-    }
-
-    &>a{
-      display: block;
-      position: relative;
-    }
-
     &__description{
       display: none;
     }
@@ -42,23 +31,6 @@ export default {
       img{
         width: 100%;
       }
-    }
-
-    &__title{
-     @include font-size(16, 15);
-     line-height: 18px;
-     letter-spacing: 0.8px;
-     position: absolute;
-     bottom: -1px;
-     left: -1px;
-     background: $color-white;
-     padding: 17px 5px 14px 3px;
-     width: 75%;
-     @include breakpoint(desktop) {
-        width: 86%;
-        padding: 16px 5px 6px 0px;
-        letter-spacing: 1.3px;
-     }
     }
   }
 </style>

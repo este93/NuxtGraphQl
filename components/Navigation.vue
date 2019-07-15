@@ -8,10 +8,10 @@
     			<nuxt-link to="/films" class="navigation__link">Films</nuxt-link>
     		</li>
     		<li class="navigation__item">
-    			<nuxt-link to="" class="navigation__link">Lecturer</nuxt-link>
+    			<nuxt-link to="/lecturer" class="navigation__link">Lecturer</nuxt-link>
     		</li>
     		<li class="navigation__item">
-    			<nuxt-link to="" class="navigation__link">Bio</nuxt-link>
+    			<nuxt-link to="/bio" class="navigation__link">Bio</nuxt-link>
     		</li>
     		<li class="navigation__item">
     			<nuxt-link to="/news" class="navigation__link">News</nuxt-link>
@@ -68,6 +68,10 @@ export default {
 		&__link{
 			letter-spacing: 0.6px;
 			@include font-size(14, 16);
+		}
+
+		.nuxt-link-exact-active{
+			border-bottom: 1px solid $color-red;
 		}
 	}
 </style>

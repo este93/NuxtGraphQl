@@ -3,22 +3,26 @@
   <section class="upcoming">
     <h1 class="title">Upcoming Films</h1>
     <div class="upcoming__wrap" v-if="data">
-      <MainArticle :data="data[0]"/>
-      <SecondaryArticles v-for="(item,index) in data.slice(1)" :key="index" :data="item"/>
+
+      <Item :data="data[0]" :category="['films', 'featured']"/>
+      <Item v-for="(item, index) in data.slice(1)" :key="index" :data="item" :category="['films', 'upcoming']" />  
+
     </div>
   </section>
 
 </template>
 
 <script>
-import MainArticle from "~/components/MainPush/Items/MainArticle"
-import SecondaryArticles from "~/components/MainPush/Items/SecondaryArticles"
+// import MainArticle from "~/components/MainPush/Items/MainArticle"
+// import SecondaryArticles from "~/components/MainPush/Items/SecondaryArticles"
+import Item from '~/components/Item'
 
 export default {
   props: ["data"],
   components: {
-    MainArticle,
-    SecondaryArticles
+    // MainArticle,
+    // SecondaryArticles,
+    Item
   }
 }
 
@@ -48,14 +52,6 @@ export default {
       @include breakpoint(desktop) {
         letter-spacing: 1.7px;
         margin-bottom: 73px;
-      }
-    }
-
-    &__item{
-      &:nth-child(2){
-        @include breakpoint(desktop) {
-          padding-top: 115px;
-        }
       }
     }
   }

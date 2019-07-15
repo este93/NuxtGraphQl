@@ -24,38 +24,11 @@ export default {
   @import "~assets/scss/main.scss";
 
   .upcoming__item{
-    position: relative;
-    margin-bottom: 31px;
-
-    @include breakpoint(desktop) {
-      grid-row: span 3;
-      margin-bottom: 0;
-    }
 
     &__title{
-      @include font-size(40, 100);
-      line-height: 45px;
-      letter-spacing: 2.3px;
-      font-weight: bold;
-      margin-bottom: 3px;
-      @include breakpoint(desktop) {
-        letter-spacing: 0.3px;
-        line-height: 115px;
-        margin-bottom: 0;
-      }
     }
 
     &__description{
-      display: block;
-      color: $color-gray;
-      @include font-size(14, 15);
-      line-height: 22px;
-      padding-top: 10px;
-      @include breakpoint(desktop) {
-        padding-top: 14px;
-        max-width: 60%;
-        letter-spacing: -0.4px;
-      }
     }
 
     &>a{

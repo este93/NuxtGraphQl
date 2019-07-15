@@ -6,6 +6,7 @@ export const GET_FILMS = gql`
 			title
 			description
 			slug
+			createdAt
 			thumbnail{
 				url
 			}

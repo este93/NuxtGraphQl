@@ -3,8 +3,8 @@
     <h1 class="title">News</h1>
     <div class="list-single__top">  
       <picture v-if="news.thumbnail">
-          <source :srcset="news.thumbnail.url + '?fit=cropw=1140&h=652'" alt="" media="(min-width: 1025px)">
-          <img :srcset="news.thumbnail.url + '?fit=cropw=335&h=207'" alt="">
+          <source :srcset="news.thumbnail.url + '?fit=crop&w=1140&h=652'" alt="" media="(min-width: 1025px)">
+          <img :srcset="news.thumbnail.url + '?fit=crop&w=335&h=207'" alt="">
       </picture>
       <h2 class="list-single__title">{{ news.title }}</h2>
     </div>
