@@ -15,6 +15,20 @@ export const GET_FILMS = gql`
 	}
 `;
 
+export const GET_TICKETS = gql`
+	query{
+		allTickets{
+			name
+			content
+			slug
+			createdAt
+			image{
+				url
+			}
+		}
+	}
+`;
+
 export const GET_UPCOMING = gql`
 	query{
 		allPosts(first: 3, filter: {upcoming: {eq: true} } ){

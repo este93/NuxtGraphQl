@@ -3,7 +3,7 @@
     <article class="article__item" :class="classObject">        
       <nuxt-link :to="`${category[0]}/${data.slug}`">
         <h3 class="article__title">{{ data.title }}</h3>
-        <div class="article__img" v-if="data.thumbnail && category[1] !== 'hp'">
+        <div class="article__img" v-if="data.thumbnail && category[1] !== 'newsHp'">
           <picture>
               <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 1025px)">
               <img :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[1]}`" alt="">
@@ -12,13 +12,7 @@
         <div class="upcoming__item__description" v-html="data.description" v-if="category[1] == 'featured'"></div>
         <div class="article__bottom" v-if="category[1] !== 'upcoming' && category[1] !== 'featured'">
             <h4 class="article__date">{{ formatDate(data.createdAt) }}</h4>
-            <div class="article__more">
-              more 
-              <svg xmlns="http://www.w3.org/2000/svg" width="21.933" height="17.521" viewBox="0 0 21.933 17.521">
-                  <path d="M21.6 9.096H.336a.336.336 0 0 1 0-.672H21.6a.336.336 0 1 1 0 .672z" data-name="Path 47"/>
-                  <path d="M13.171 17.517a.336.336 0 0 1-.238-.573l8.188-8.188L12.937.573a.336.336 0 0 1 .475-.475l8.425 8.419a.337.337 0 0 1 0 .476l-8.429 8.424a.333.333 0 0 1-.237.1z" data-name="Path 48"/>
-              </svg>
-            </div>
+            <div class="article__more">more<span class="arrow"></span></div>
         </div>
       </nuxt-link>
     </article> 	
@@ -31,26 +25,26 @@
     data() {
       return{        
         classObject: {
-          'article-newsHP'  : this.category[1] == 'hp',          
+          'article-newsHP'  : this.category[1] == 'newsHp',          
           'article-upcoming': this.category[1] == 'upcoming',
           'article-featured': this.category[1] == 'featured'
         },
-        imageSizes: []
       }
     },
     computed: {
       imageSizesResolver(){
+        var imageSizes = [];
         if(this.category[1] == 'featured'){
-          this.imageSizes[0] = 'w=810&h=456';
-          this.imageSizes[1] = 'w=335&h=300';
+          imageSizes[0] = 'w=810&h=456';
+          imageSizes[1] = 'w=335&h=300';
         }else if(this.category[1] == 'upcoming'){
-          this.imageSizes[0] = 'w=290&h=208';
-          this.imageSizes[1] = 'w=335&h=152';          
+          imageSizes[0] = 'w=290&h=208';
+          imageSizes[1] = 'w=335&h=152';          
         }else{
-          this.imageSizes[0] = 'w=560&h=400';
-          this.imageSizes[1] = 'w=335&h=207';             
+          imageSizes[0] = 'w=560&h=400';
+          imageSizes[1] = 'w=335&h=207';             
         }
-        return this.imageSizes;
+        return imageSizes;
       } 
     }
 	}
@@ -129,9 +123,12 @@
     &__more{
     	display: flex;
     	align-items: center;
-    	svg{
-    		margin-left: 14px;
-    	}
+      .arrow{
+        width: 22px;
+        height: 18px;
+        background: url('~/assets/img/right-arrow.png');
+        margin-left: 14px;
+      }
     }
     
     &-featured{      
@@ -149,14 +146,16 @@
         display: block;
         position: relative;
       }
+      .article__img{
+        margin-bottom: 10px;
+      }
       .upcoming__item__description{        
         display: block;
         color: $color-gray;
         @include font-size(14, 15);
         line-height: 22px;
-        padding-top: 10px;
         @include breakpoint(desktop) {
-          padding-top: 14px;
+          padding-top: 4px;
           max-width: 60%;
           letter-spacing: -0.4px;
         }

@@ -20,7 +20,7 @@
 			</svg>
 	    </div>
 	    <div v-else>
-  			<nuxt-link  to="/">
+  			<nuxt-link to="/">
     			<svg xmlns="http://www.w3.org/2000/svg" width="200.001" height="32.218" viewBox="0 0 200.001 32.218">
 				    <path d="M.001 5.126H4.21v26.785H.001V5.126z" data-name="Path 1"/>
 				    <path d="M13.622 26.975l3.214-21.849h3.869l-4.137 26.785h-6.275L6.16 5.126h4.245z" data-name="Path 2"/>
