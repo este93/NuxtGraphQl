@@ -14,8 +14,10 @@ module.exports = {
       '/news/first-short-fiction-film',
       '/news/selection-committee-for-german-international-ethnographic-film-festival',
       '/news/master-class-at-the-serbian-film-center',
-      '/news/two-7-day-workshopin-kulturwissenschaft-an-der-uni-koblenc-germany'
-    ]
+      '/news/two-7-day-workshopin-kulturwissenschaft-an-der-uni-koblenc-germany',
+      '404'
+    ],
+    fallback: "404.html"
   },
 
   /*
