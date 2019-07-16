@@ -3,6 +3,21 @@ const pkg = require('./package')
 module.exports = {
   mode: 'universal',
 
+  generate: {
+    routes: [
+      '/films/adems-island',
+      '/films/test-article',
+      '/films/when-i-was-a-boy-i-was-a-girl',
+      '/films/when-im-at-home',
+      '/news/makron-u-bgu',
+      '/news/test-news',
+      '/news/first-short-fiction-film',
+      '/news/selection-committee-for-german-international-ethnographic-film-festival',
+      '/news/master-class-at-the-serbian-film-center',
+      '/news/two-7-day-workshopin-kulturwissenschaft-an-der-uni-koblenc-germany'
+    ]
+  },
+
   /*
   ** Headers of the page
   */
