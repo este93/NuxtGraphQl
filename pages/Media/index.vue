@@ -9,71 +9,201 @@
 	  	</div>
 
 		<Item v-for="(item, index) in allMedia" :key="index" :data="item" :category="[item.category, 'a']"/>   
+		
+		<div v-if="loading">
+			<p>Loading...</p>
+	  	</div>
 
 	  </div>
 	</div>
 </template>
 
 <script>
-import { GET_ALL } from '~/apollo/queries.js'
+// import { GET_ALL } from '~/apollo/queries.js'
 import Item from '~/components/Item'
 
-export default {
-	data(){
-		return{
-			allMedia: []
-		}
-	},
-  components: {
-  	Item
-  },
-  apollo: {
-    allPosts: {
-      query: GET_ALL
-    },
-    allNews: {
-      query: GET_ALL
+import gql from 'graphql-tag'
+  const POSTS_PER_PAGE = 3
+
+  const allPosts = gql`
+    query allPosts($first: IntType!, $skip: IntType!) {
+      allPosts(first: $first, skip: $skip) {			
+		title
+		description
+		slug
+		createdAt
+		thumbnail{
+			url
+		} 
+      }
     }
-  },
-  methods:{
-	formatDate(value) {
-	  if (!value) {
-	    return "(n/a)"
-	  }
-	  value = value.replace(/ /g, "T")
-	  value = new Date(value)
-	  const month = value.toLocaleString("En", { month: "long" })
-	  return month + " " + value.getDate() + " - " + value.getFullYear()
+ `
+  const allNews = gql`
+    query allNews($first: IntType!, $skip: IntType!) {
+      allNews(first: $first, skip: $skip) {
+		title
+		text
+		slug
+		createdAt
+		thumbnail{
+			url
+		}
+      }
+    }
+ `
+
+export default {
+	data:  () => ({
+		allMedia: [],
+		loading: false,
+		gettingData: true,
+		sortingBy: 'date'
+	}),
+
+    components: {
+  		Item
+    },
+
+    apollo: {
+	    allPosts: {
+	    	query: allPosts,
+	    	variables: {
+	          skip: 0,
+	          first: POSTS_PER_PAGE
+	        }
+	    },    
+	    allNews: {
+	    	query: allNews,
+	    	variables: {
+	          skip: 0,
+	          first: POSTS_PER_PAGE
+	        }
+	    },
+	    postCount: {
+	        query: gql`{ _allPostsMeta { count } }`,
+	        update: ({ _allPostsMeta }) => _allPostsMeta.count
+	    },
+	    newsCount: {
+	        query: gql`{ _allNewsMeta { count } }`,
+	        update: ({ _allNewsMeta }) => _allNewsMeta.count
+	    }
+    },
+
+    methods:{
+		handleScroll () {
+		    let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+		    if (bottomOfWindow && this.newsCount + this.postCount > this.allMedia.length && this.gettingData) {
+				this.loadMorePosts();
+		    }
+		},
+	    loadMorePosts () {
+	    	var _self = this;
+
+	    	var loadFilms = function(){
+				_self.loading = true;
+				_self.gettingData = false;
+		        return new Promise(function(resolve){
+		    		_self.$apollo.queries.allPosts.fetchMore({
+			          variables: {
+			            skip: _self.allPosts.length,
+			          	first: POSTS_PER_PAGE
+			          },
+			          updateQuery: (previousResult, { fetchMoreResult }) => {
+			            if (!fetchMoreResult) {
+			              return previousResult
+			            }
+			            return Object.assign({}, previousResult, {
+			              allPosts: [...previousResult.allPosts, ...fetchMoreResult.allPosts]
+			            })
+			          }
+			        })
+					_self.$apollo.queries.allNews.fetchMore({
+			          variables: {
+			            skip: _self.allNews.length,
+			          	first: POSTS_PER_PAGE
+			          },
+			          updateQuery: (previousResult, { fetchMoreResult }) => {
+			            if (!fetchMoreResult) {
+			              return previousResult
+			            }
+			            return Object.assign({}, previousResult, {
+			              allNews: [...previousResult.allNews, ...fetchMoreResult.allNews]
+			            })
+			          }
+			        })
+			        resolve();
+		        });
+		    }
+
+		    var concatEverything = function(){
+		        return new Promise(function(resolve){
+		        	setTimeout(function(){
+			    		_self.allMedia = _self.allPosts.concat(_self.allNews).sort(function(a, b){
+			    			if(_self.sortingBy == 'date'){
+						    	return new Date(b.createdAt) - new Date(a.createdAt);
+			    			}else{
+							    if(a.title < b.title) { return -1; }
+							    if(a.title > b.title) { return 1; }
+							    return 0;
+			    			}
+						});
+					  	_self.allMedia.forEach(item => {
+					  		if(item.__typename == "NewsRecord") item['category'] = 'news'
+					  		else item['category'] = 'films'
+					  	}) 
+					  	_self.loading = false;
+						_self.gettingData = true;
+		        	}, 1000)
+			        resolve();
+		        });
+		    }
+
+		    loadFilms().then(concatEverything);	
+	    },
+
+		sortByName(){
+			this.sortingBy = 'name'
+			this.allMedia.sort(function(a, b){
+			    if(a.title < b.title) { return -1; }
+			    if(a.title > b.title) { return 1; }
+			    return 0;
+			})
+		},
+		sortByDate(){		
+			this.sortingBy = 'date'
+		  	this.allMedia.sort(function(a, b){
+			    return new Date(b.createdAt) - new Date(a.createdAt);
+			});
+		}
+    },
+
+    destroyed () {
+	    if (process.browser) { 
+	        window.removeEventListener('scroll', this.handleScroll);
+	    }	
 	},
-	sortByName(){
-		this.allMedia.sort(function(a, b){
-		    if(a.title < b.title) { return -1; }
-		    if(a.title > b.title) { return 1; }
-		    return 0;
-		})
+
+	created () {
+	    if (process.browser) { 
+		    window.addEventListener('scroll', this.handleScroll);
+	    }
 	},
-	sortByDate(){		
-	  	this.allMedia.sort(function(a, b){
-		    return new Date(b.createdAt) - new Date(a.createdAt);
+
+	mounted() {  	
+		this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
+	    	return new Date(b.createdAt) - new Date(a.createdAt);
 		});
-	}
-  },
-  mounted() {
-  	this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
-	    return new Date(b.createdAt) - new Date(a.createdAt);
-	});
-  	this.allMedia.forEach(item => {
-  		if(item.__typename == "NewsRecord") item['category'] = 'news'
-  		else item['category'] = 'films'
-  	})  
-  },
+		this.allMedia.forEach(item => {
+			if(item.__typename == "NewsRecord") item['category'] = 'news'
+			else item['category'] = 'films'
+		})  
+	},
 }
 </script>
 
 
 <style lang='scss' scoped>
 	@import "~assets/scss/main.scss";
-
 	.title{
 		font-style: italic;
 		color: $color-red;

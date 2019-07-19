@@ -5,16 +5,23 @@ module.exports = {
 
   generate: {
     routes: [
+      '/films/test-post-3',
+      '/films/test-post-2',
+      '/films/test-post-1',
       '/films/adems-island',
       '/films/test-article',
+      '/films/women-of-the-national-front',
       '/films/when-i-was-a-boy-i-was-a-girl',
       '/films/when-im-at-home',
+      '/news/selection-committee-for-german-international-ethnographic-film-festival',
       '/news/makron-u-bgu',
       '/news/test-news',
       '/news/first-short-fiction-film',
-      '/news/selection-committee-for-german-international-ethnographic-film-festival',
       '/news/master-class-at-the-serbian-film-center',
       '/news/two-7-day-workshopin-kulturwissenschaft-an-der-uni-koblenc-germany',
+      '/news/test-news-3',
+      '/news/test-news-2',
+      '/news/test-news-1',
       '404'
     ],
     fallback: "404.html"
@@ -48,7 +55,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~plugins/custom.js"
+    "~plugins/custom.js",
   ],
 
   /*
