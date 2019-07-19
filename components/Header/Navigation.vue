@@ -17,6 +17,9 @@
     			<nuxt-link to="/news" class="navigation__link">News</nuxt-link>
     		</li>
     		<li class="navigation__item">
+    			<nuxt-link to="/media" class="navigation__link">Media</nuxt-link>
+    		</li>
+    		<li class="navigation__item">
     			<nuxt-link to="/contact" class="navigation__link">Contact</nuxt-link>
     		</li>
     	</ul>

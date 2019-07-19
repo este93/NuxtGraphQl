@@ -2,7 +2,10 @@
 
     <article class="article__item" :class="classObject">        
       <nuxt-link :to="`${category[0]}/${data.slug}`">
-        <h3 class="article__title">{{ data.title }}</h3>
+        <h3 class="article__title">
+          {{ data.title }}
+          <span class="article__category" v-if="data.category">Category: {{ data.category }}</span>
+        </h3>
         <div class="article__img" v-if="data.thumbnail && category[1] !== 'newsHp'">
           <picture>
               <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" :data-srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 768px)">
@@ -12,7 +15,7 @@
         <div class="upcoming__item__description" v-html="data.description" v-if="category[1] == 'featured'"></div>
         <div class="article__bottom" v-if="category[1] !== 'upcoming' && category[1] !== 'featured'">
             <h4 class="article__date">{{ formatDate(data.createdAt) }}</h4>
-            <div class="article__more">more<span class="arrow"></span></div>
+            <div class="article__more">more<span class="arrow"></span></div>            
         </div>
       </nuxt-link>
     </article> 	
@@ -118,6 +121,11 @@
     		grid-row: 4;
     		padding: 0 120px;
 	    }
+    }
+    &__category{
+     @include font-size(16, 15);
+     display: block;
+     font-weight: normal;
     }
     &__date{
       letter-spacing: 0.8px;
