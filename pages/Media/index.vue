@@ -5,7 +5,8 @@
 
 	  	<div class="sort">
 			<div class="sort__item" @click="sortByName">Sort by name</div>
-			<div class="sort__item" @click="sortByDate">Sort by date</div>	  		
+			<div class="sort__item" @click="sortByDate">Sort by date</div>	  	
+			<div class="sort__item" v-if="loading == 0">Number of Posts: {{ this.allMedia.length }} / {{ this.newsCount + this.postCount }}</div>	
 	  	</div>
 
 		<Item v-for="(item, index) in allMedia" :key="index" :data="item" :category="[item.category, 'a']"/>   
@@ -19,7 +20,6 @@
 </template>
 
 <script>
-// import { GET_ALL } from '~/apollo/queries.js'
 import Item from '~/components/Item'
 
 import gql from 'graphql-tag'
@@ -55,9 +55,10 @@ import gql from 'graphql-tag'
 export default {
 	data:  () => ({
 		allMedia: [],
-		loading: false,
+		loading: 0,
 		gettingData: true,
-		sortingBy: 'date'
+		sortingBy: 'date',
+		firstLoad: true
 	}),
 
     components: {
@@ -65,7 +66,9 @@ export default {
     },
 
     apollo: {
+      	$loadingKey: 'loading',
 	    allPosts: {
+	    	prefetch: true,
 	    	query: allPosts,
 	    	variables: {
 	          skip: 0,
@@ -73,6 +76,7 @@ export default {
 	        }
 	    },    
 	    allNews: {
+	    	prefetch: true,
 	    	query: allNews,
 	    	variables: {
 	          skip: 0,
@@ -188,16 +192,31 @@ export default {
 		    window.addEventListener('scroll', this.handleScroll);
 	    }
 	},
-
-	mounted() {  	
-		this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
-	    	return new Date(b.createdAt) - new Date(a.createdAt);
-		});
-		this.allMedia.forEach(item => {
-			if(item.__typename == "NewsRecord") item['category'] = 'news'
-			else item['category'] = 'films'
-		})  
-	},
+    watch: {
+		loading: function(newValue) {
+		   if(newValue == 0 && this.firstLoad){	
+			this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
+		    	return new Date(b.createdAt) - new Date(a.createdAt);
+			});
+			this.allMedia.forEach(item => {
+				if(item.__typename == "NewsRecord") item['category'] = 'news'
+				else item['category'] = 'films'
+			})	
+			this.firstLoad = false;
+		   }
+		},    	
+    },
+    mounted(){
+    	if(this.allPosts){
+			this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
+		    	return new Date(b.createdAt) - new Date(a.createdAt);
+			});
+			this.allMedia.forEach(item => {
+				if(item.__typename == "NewsRecord") item['category'] = 'news'
+				else item['category'] = 'films'
+			})	
+    	}    	
+    }
 }
 </script>
 
@@ -226,8 +245,12 @@ export default {
 		margin-bottom: 20px;
     	display: flex;
     	&__item{
-    		margin: 0 10px;
+    		padding: 0 10px;
     		cursor: pointer;
+    		border-right: 1px solid black;
+    		&:last-child{
+    			border-right: 0;
+    		}
     	}
 	}
   </style>
