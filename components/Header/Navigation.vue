@@ -1,26 +1,8 @@
 <template>
     <nav class="navigation" :class="{'navigation-active':navOpened}">
     	<ul>
-    		<li class="navigation__item">
-    			<nuxt-link to="/" class="navigation__link">Home</nuxt-link>
-    		</li>
-    		<li class="navigation__item">
-    			<nuxt-link to="/films" class="navigation__link">Films</nuxt-link>
-    		</li>
-    		<li class="navigation__item">
-    			<nuxt-link to="/lecturer" class="navigation__link">Lecturer</nuxt-link>
-    		</li>
-    		<li class="navigation__item">
-    			<nuxt-link to="/bio" class="navigation__link">Bio</nuxt-link>
-    		</li>
-    		<li class="navigation__item">
-    			<nuxt-link to="/news" class="navigation__link">News</nuxt-link>
-    		</li>
-    		<li class="navigation__item">
-    			<nuxt-link to="/media" class="navigation__link">Media</nuxt-link>
-    		</li>
-    		<li class="navigation__item">
-    			<nuxt-link to="/contact" class="navigation__link">Contact</nuxt-link>
+    		<li class="navigation__item" v-for="(link, index) in links" :key="index" @click="routeChanged">
+    			<nuxt-link :to="link.url" class="navigation__link">{{ link.title }}</nuxt-link>
     		</li>
     	</ul>
     </nav>
@@ -33,6 +15,20 @@ export default {
     props: ["navOpened"],
 	data(){
 		return{
+			links: [
+				{url: '/', title: 'Home'},
+				{url: '/films',title:  'Films'},
+				{url: '/lecturer',title:  'Lecturer'},
+				{url: '/bio',title:  'Bio'},
+				{url: '/news',title:  'News'},
+				{url: '/media',title:  'Media'},
+				{url: '/contact',title:  'Contact'},
+			]
+		}
+	},
+	methods: {
+		routeChanged(){
+			this.$emit('routeChanged')
 		}
 	}
 }

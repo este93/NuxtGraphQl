@@ -14,7 +14,7 @@
 	        </div>    		
     	</div>
 
-        <Navigation :navOpened="navOpened" />
+        <Navigation :navOpened="navOpened" @routeChanged="navOpened = false"/>
 	</header>
 </template>
 

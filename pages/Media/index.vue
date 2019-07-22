@@ -95,10 +95,12 @@ export default {
 
     methods:{
 		handleScroll () {
-		    let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+		    let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= this.clientHeight
 		    if (bottomOfWindow && this.newsCount + this.postCount > this.allMedia.length && this.gettingData) {
 				this.loadMorePosts();
 		    }
+		    console.log(this.clientHeight)
+		    console.log(Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight)
 		},
 	    loadMorePosts () {
 	    	var _self = this;
@@ -197,6 +199,13 @@ export default {
 	    if (process.browser) { 
 		    window.addEventListener('scroll', this.handleScroll);
 	    }
+	},
+	computed: {
+		clientHeight(){			
+		    if (process.browser) { 
+			    return document.documentElement.offsetHeight - 100;
+		    }
+		}
 	},
     watch: {
 		loading: function(newValue) {
