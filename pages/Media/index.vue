@@ -4,8 +4,8 @@
 	  <div class="articles__wrap">
 
 	  	<div class="sort">
-			<div class="sort__item" @click="sortByName">Sort by name</div>
-			<div class="sort__item" @click="sortByDate">Sort by date</div>	  	
+			<div class="sort__item" @click="sorting('name')">Sort by name</div>
+			<div class="sort__item" @click="sorting('date')">Sort by date</div>	  	
 			<div class="sort__item" v-if="loading == 0">Number of Posts: {{ this.allMedia.length }} / {{ this.newsCount + this.postCount }}</div>	
 	  	</div>
 
@@ -103,7 +103,7 @@ export default {
 	    loadMorePosts () {
 	    	var _self = this;
 
-	    	var loadFilms = function(){
+	    	var loadData = function(){
 				_self.loading = true;
 				_self.gettingData = false;
 		        return new Promise(function(resolve){
@@ -142,43 +142,49 @@ export default {
 		    var concatEverything = function(){
 		        return new Promise(function(resolve){
 		        	setTimeout(function(){
-			    		_self.allMedia = _self.allPosts.concat(_self.allNews).sort(function(a, b){
-			    			if(_self.sortingBy == 'date'){
-						    	return new Date(b.createdAt) - new Date(a.createdAt);
-			    			}else{
-							    if(a.title < b.title) { return -1; }
-							    if(a.title > b.title) { return 1; }
-							    return 0;
-			    			}
-						});
-					  	_self.allMedia.forEach(item => {
-					  		if(item.__typename == "NewsRecord") item['category'] = 'news'
-					  		else item['category'] = 'films'
-					  	}) 
+    					_self.initialConcat();
 					  	_self.loading = false;
 						_self.gettingData = true;
-		        	}, 1000)
+		        	}, 100)
 			        resolve();
 		        });
 		    }
 
-		    loadFilms().then(concatEverything);	
+		    loadData().then(concatEverything);	
 	    },
 
-		sortByName(){
-			this.sortingBy = 'name'
-			this.allMedia.sort(function(a, b){
-			    if(a.title < b.title) { return -1; }
-			    if(a.title > b.title) { return 1; }
-			    return 0;
-			})
-		},
-		sortByDate(){		
-			this.sortingBy = 'date'
-		  	this.allMedia.sort(function(a, b){
-			    return new Date(b.createdAt) - new Date(a.createdAt);
+		initialConcat(){
+			let _self = this;
+			_self.allMedia = _self.allPosts.concat(_self.allNews).sort(function(a, b){
+    			if(_self.sortingBy == 'date'){
+			    	return new Date(b.createdAt) - new Date(a.createdAt);
+    			}else{
+				    if(a.title < b.title) { return -1; }
+				    if(a.title > b.title) { return 1; }
+				    return 0;
+    			}
 			});
-		}
+		  	_self.allMedia.forEach(item => {
+		  		if(item.__typename == "NewsRecord") item['category'] = 'news'
+		  		else item['category'] = 'films'
+		  	}) 			
+		},
+
+		sorting(type){
+			if(type == 'name'){
+				this.sortingBy = 'name'
+				this.allMedia.sort(function(a, b){
+				    if(a.title < b.title) { return -1; }
+				    if(a.title > b.title) { return 1; }
+				    return 0;
+				})				
+			}else{
+				this.sortingBy = 'date'
+			  	this.allMedia.sort(function(a, b){
+				    return new Date(b.createdAt) - new Date(a.createdAt);
+				});				
+			}
+		},
     },
 
     destroyed () {
@@ -195,26 +201,14 @@ export default {
     watch: {
 		loading: function(newValue) {
 		   if(newValue == 0 && this.firstLoad){	
-			this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
-		    	return new Date(b.createdAt) - new Date(a.createdAt);
-			});
-			this.allMedia.forEach(item => {
-				if(item.__typename == "NewsRecord") item['category'] = 'news'
-				else item['category'] = 'films'
-			})	
+    		this.initialConcat();
 			this.firstLoad = false;
 		   }
 		},    	
     },
     mounted(){
     	if(this.allPosts){
-			this.allMedia = this.allPosts.concat(this.allNews).sort(function(a, b){
-		    	return new Date(b.createdAt) - new Date(a.createdAt);
-			});
-			this.allMedia.forEach(item => {
-				if(item.__typename == "NewsRecord") item['category'] = 'news'
-				else item['category'] = 'films'
-			})	
+    		this.initialConcat();
     	}    	
     }
 }
