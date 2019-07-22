@@ -59,7 +59,6 @@ export default {
 		gettingData: true,
 		sortingBy: 'date',
 		firstLoad: true,
-		clientHeight: ''
 	}),
 
     components: {

@@ -1,7 +1,12 @@
 <template>
 
     <article class="article__item" :class="classObject">        
-      <nuxt-link :to="'/a'">
+      <nuxt-link :to="`${category[0]}/${data.slug}`">
+        <h5>test</h5>
+        <h3 class="article__title">
+          {{ data.title }}
+          <span class="article__category" v-if="data.category">Category: {{ data.category }}</span>
+        </h3>
         <div class="article__img" v-if="data.thumbnail && category[1] !== 'newsHp'">
           <picture>
               <source :srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" :data-srcset="data.thumbnail.url + `?fit=crop&${imageSizesResolver[0]}`" alt="" media="(min-width: 768px)">

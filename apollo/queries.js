@@ -1,41 +1,5 @@
 import gql from 'graphql-tag'
 
-export const GET_FILMS = gql`
-	query{
-		allPosts{
-			title
-			description
-			slug
-			createdAt
-			thumbnail{
-				url
-			}
-			upcoming
-		}
-	}
-`;
-export const GET_ALL = gql`
-	query MyQuery{
-	  allPosts {
-		title
-		description
-		slug
-		createdAt
-		thumbnail{
-			url
-		}
-	  }
-	  allNews {
-		title
-		text
-		slug
-		createdAt
-		thumbnail{
-			url
-		}
-	  }
-	}
-`;
 export const GET_UPCOMING = gql`
 	query{
 		allPosts(first: 3, filter: {upcoming: {eq: true} } ){
@@ -46,20 +10,6 @@ export const GET_UPCOMING = gql`
 				url
 			}
 			upcoming
-		}
-	}
-`;
-
-export const GET_NEWS = gql`
-	query{
-		allNews{
-			title
-			text
-			slug
-			createdAt
-			thumbnail{
-				url
-			}
 		}
 	}
 `;
