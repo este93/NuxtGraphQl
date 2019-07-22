@@ -6,10 +6,10 @@
 	  	<div class="sort">
 			<div class="sort__item" @click="sorting('name')">Sort by name</div>
 			<div class="sort__item" @click="sorting('date')">Sort by date</div>	  	
-			<div class="sort__item" v-if="loading == 0">Number of Posts: {{ this.allMedia.length }} / {{ this.newsCount + this.postCount }}</div>	
+			<div class="sort__item noClick" v-if="loading == 0">Number of Posts: {{ this.allMedia.length }} / {{ this.newsCount + this.postCount }}</div>	
 	  	</div>
 
-		<Item v-for="(item, index) in allMedia" :key="index" :data="item" :category="[item.category, 'a']"/>   
+		<Item v-for="(item, index) in allMedia" :key="index" :data="item" :category="[item.category]"/>   
 		
 		<div v-if="loading">
 			<p>Loading...</p>
@@ -23,7 +23,7 @@
 import Item from '~/components/Item'
 
 import gql from 'graphql-tag'
-  const POSTS_PER_PAGE = 3
+  const POSTS_PER_PAGE = 4
 
   const allPosts = gql`
     query allPosts($first: IntType!, $skip: IntType!) {
@@ -58,7 +58,8 @@ export default {
 		loading: 0,
 		gettingData: true,
 		sortingBy: 'date',
-		firstLoad: true
+		firstLoad: true,
+		clientHeight: ''
 	}),
 
     components: {
@@ -95,12 +96,10 @@ export default {
 
     methods:{
 		handleScroll () {
-		    let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= this.clientHeight
+		    let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= document.documentElement.offsetHeight - 100;
 		    if (bottomOfWindow && this.newsCount + this.postCount > this.allMedia.length && this.gettingData) {
 				this.loadMorePosts();
 		    }
-		    console.log(this.clientHeight)
-		    console.log(Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight)
 		},
 	    loadMorePosts () {
 	    	var _self = this;
@@ -147,7 +146,7 @@ export default {
     					_self.initialConcat();
 					  	_self.loading = false;
 						_self.gettingData = true;
-		        	}, 500)
+		        	}, 700)
 			        resolve();
 		        });
 		    }
@@ -200,20 +199,13 @@ export default {
 		    window.addEventListener('scroll', this.handleScroll);
 	    }
 	},
-	computed: {
-		clientHeight(){			
-		    if (process.browser) { 
-			    return document.documentElement.offsetHeight - 100;
-		    }
-		}
-	},
     watch: {
 		loading: function(newValue) {
-		   if(newValue == 0 && this.firstLoad){	
-    		this.initialConcat();
-			this.firstLoad = false;
-		   }
-		},    	
+		    if(newValue == 0 && this.firstLoad){	
+	    		this.initialConcat();
+				this.firstLoad = false;
+		    }
+		}
     },
     mounted(){
     	if(this.allPosts){
@@ -251,6 +243,9 @@ export default {
     		padding: 0 10px;
     		cursor: pointer;
     		border-right: 1px solid black;
+    		&.noClick{
+    			cursor: default;
+    		}
     		&:last-child{
     			border-right: 0;
     		}
