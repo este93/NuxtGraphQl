@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { GET_UPCOMING, GET_NEWS_HP } from '~/apollo/queries'
+import { GET_UPCOMING, GET_NEWS } from '~/apollo/queries'
 import UpcomingHpFeed from '~/components/Blocks/UpcomingHpFeed'
 import NewsHpFeed from '~/components/Blocks/NewsHpFeed'
 import Lecturer from '~/components/Lecturer'
@@ -36,7 +36,11 @@ export default {
     },
     allNews: {
       prefetch: true,
-      query: GET_NEWS_HP
+      query: GET_NEWS,
+      variables: {
+        skip: 0,
+        first: 4
+       }
     }
   },
 }

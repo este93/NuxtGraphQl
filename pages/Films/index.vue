@@ -16,22 +16,10 @@
 <script>
 import Item from '~/components/Item'
 import gql from 'graphql-tag'
+import { GET_FILMS } from '~/apollo/queries'
 
 const POSTS_PER_PAGE = 5
 
-const allPosts = gql`
-	query allPosts($first: IntType!, $skip: IntType!) {
-	  allPosts(first: $first, skip: $skip) {			
-		title
-		description
-		slug
-		createdAt
-		thumbnail{
-			url
-		} 
-	  }
-	}
-`
 export default {
 	data:  () => ({
 		films: [],
@@ -46,7 +34,7 @@ export default {
       	$loadingKey: 'loading',
 		allPosts: {
 		  prefetch: true,
-		  query: allPosts,
+		  query: GET_FILMS,
 	      variables: {
 	        skip: 0,
 	        first: POSTS_PER_PAGE

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { GET_FILM } from '~/apollo/queries'
+import { GET_FILM_SINGLE } from '~/apollo/queries'
 
 export default {
   data(){
@@ -26,7 +26,7 @@ export default {
   apollo: {
     post: {
       prefetch: true,
-      query: GET_FILM,
+      query: GET_FILM_SINGLE,
       error() { 
         this.$root.error({'statusCode': 404, 'message': 'OK'})
       },

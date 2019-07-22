@@ -14,9 +14,23 @@ export const GET_UPCOMING = gql`
 	}
 `;
 
-export const GET_NEWS_HP = gql`
-	query{
-		allNews(first: 4){
+export const GET_FILMS = gql`
+	query allPosts($first: IntType!, $skip: IntType! ){
+	    allPosts (first: $first, skip: $skip) {			
+			title
+			description
+			slug
+			createdAt
+			thumbnail{
+				url
+			} 
+	    }
+	}
+`;
+
+export const GET_NEWS = gql`
+	query allNews($first: IntType!, $skip: IntType!){
+	    allNews (first: $first, skip: $skip) {		
 			title
 			text
 			slug
@@ -24,11 +38,11 @@ export const GET_NEWS_HP = gql`
 			thumbnail{
 				url
 			}
-		}
+	    }
 	}
 `;
 
-export const GET_FILM = gql`
+export const GET_FILM_SINGLE = gql`
 	query Post($slug: String!){
 	    post (filter: {slug: {eq: $slug}}) {
 		    title

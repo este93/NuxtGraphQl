@@ -16,6 +16,7 @@
 <script>
 import gql from 'graphql-tag'
 import Item from '~/components/Item'
+import { GET_NEWS } from '~/apollo/queries'
 
 const POSTS_PER_PAGE = 5
 
@@ -47,7 +48,7 @@ export default {
       	$loadingKey: 'loading',
 		allNews: {
 		  prefetch: true,
-		  query: allNews,
+		  query: GET_NEWS,
 	      variables: {
 	        skip: 0,
 	        first: POSTS_PER_PAGE
