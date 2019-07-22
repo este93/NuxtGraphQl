@@ -2,7 +2,6 @@
 
     <article class="article__item" :class="classObject">        
       <nuxt-link :to="`${category[0]}/${data.slug}`">
-        <h5>test</h5>
         <h3 class="article__title">
           {{ data.title }}
           <span class="article__category" v-if="data.category">Category: {{ data.category }}</span>
