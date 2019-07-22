@@ -147,7 +147,7 @@ export default {
     					_self.initialConcat();
 					  	_self.loading = false;
 						_self.gettingData = true;
-		        	}, 100)
+		        	}, 500)
 			        resolve();
 		        });
 		    }
