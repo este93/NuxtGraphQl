@@ -1,7 +1,7 @@
 <template>
 
     <article class="article__item" :class="classObject">        
-      <nuxt-link :to="`/${category[0]}/${data.slug}`">
+      <nuxt-link :to="'/asd'">
         <h3 class="article__title">
           {{ data.title }}
           <span class="article__category" v-if="data.category">Category: {{ data.category }}</span>
