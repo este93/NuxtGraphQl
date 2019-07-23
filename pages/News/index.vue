@@ -20,20 +20,6 @@ import { GET_NEWS } from '~/apollo/queries'
 
 const POSTS_PER_PAGE = 5
 
-const allNews = gql`
-	query allNews($first: IntType!, $skip: IntType!) {
-	  allNews(first: $first, skip: $skip) {	
-		title
-		text
-		slug
-		createdAt
-		thumbnail{
-			url
-		}
-	  }
-	}
-`
-
 export default {
 	data:  () => ({
 		news: [],

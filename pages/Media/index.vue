@@ -21,36 +21,10 @@
 
 <script>
 import Item from '~/components/Item'
-
+import { GET_FILMS, GET_NEWS } from '~/apollo/queries'
 import gql from 'graphql-tag'
-  const POSTS_PER_PAGE = 4
 
-  const allPosts = gql`
-    query allPosts($first: IntType!, $skip: IntType!) {
-      allPosts(first: $first, skip: $skip) {			
-		title
-		description
-		slug
-		createdAt
-		thumbnail{
-			url
-		} 
-      }
-    }
- `
-  const allNews = gql`
-    query allNews($first: IntType!, $skip: IntType!) {
-      allNews(first: $first, skip: $skip) {
-		title
-		text
-		slug
-		createdAt
-		thumbnail{
-			url
-		}
-      }
-    }
- `
+const POSTS_PER_PAGE = 4
 
 export default {
 	data:  () => ({
@@ -69,7 +43,7 @@ export default {
       	$loadingKey: 'loading',
 	    allPosts: {
 	    	prefetch: true,
-	    	query: allPosts,
+	    	query: GET_FILMS,
 	    	variables: {
 	          skip: 0,
 	          first: POSTS_PER_PAGE
@@ -77,7 +51,7 @@ export default {
 	    },    
 	    allNews: {
 	    	prefetch: true,
-	    	query: allNews,
+	    	query: GET_NEWS,
 	    	variables: {
 	          skip: 0,
 	          first: POSTS_PER_PAGE
