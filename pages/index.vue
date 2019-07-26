@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <UpcomingHpFeed :upcomingHp="allPosts" />
+    <MainFeed :upcomingHp="allPosts" />
 
     <NewsHpFeed :newsHp="allNews" />
 
@@ -19,13 +19,13 @@
 
 <script>
 import { GET_UPCOMING, GET_NEWS } from '~/apollo/queries'
-import UpcomingHpFeed from '~/components/Blocks/UpcomingHpFeed'
+import MainFeed from '~/components/Blocks/MainFeed/MainFeed'
 import NewsHpFeed from '~/components/Blocks/NewsHpFeed'
 import Lecturer from '~/components/Lecturer'
 
 export default {
   components: {
-    UpcomingHpFeed,
+    MainFeed,
     NewsHpFeed,
     Lecturer
   },

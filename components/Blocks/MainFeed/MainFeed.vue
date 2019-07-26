@@ -3,9 +3,10 @@
   <section class="upcoming">
     <h1 class="title">Upcoming Films</h1>
     <div class="upcoming__wrap" v-if="upcomingHp">
-
-      <Item :data="upcomingHp[0]" :category="['films', 'featured']"/>
-      <Item v-for="(item, index) in upcomingHp.slice(1)" :key="index" :data="item" :category="['films', 'upcoming']" />  
+      
+      <MainItem :data="upcomingHp[0]" :category="['films', 'featured']" />
+      <!-- <Item :data="upcomingHp[0]" :category="['films', 'featured']"/> -->
+      <!-- <Item v-for="(item, index) in upcomingHp.slice(1)" :key="index" :data="item" :category="['films', 'upcoming']" />   -->
 
     </div>
   </section>
@@ -13,11 +14,13 @@
 </template>
 
 <script>
+import MainItem from '~/components/Blocks/MainFeed/Items/MainItem'
 import Item from '~/components/Item'
 
 export default {
   props: ["upcomingHp"],
   components: {
+    MainItem,
     Item
   }
 }

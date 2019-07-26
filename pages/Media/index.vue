@@ -38,7 +38,6 @@ export default {
     components: {
   		Item
     },
-
     apollo: {
       	$loadingKey: 'loading',
 	    allPosts: {
